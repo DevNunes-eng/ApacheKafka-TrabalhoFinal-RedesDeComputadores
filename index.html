@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabalho Final de Redes de Computadores</title>
+    <style>
+        
+:root {
+    --bg: #282a36;
+    --current-line: #44475a;
+    --fg: #f8f8f2;
+    --comment: #6272a4;
+    --cyan: #8be9fd;
+    --green: #50fa7b;
+    --orange: #ffb86c;
+    --pink: #ff79c6;
+    --purple: #bd93f9;
+    --red: #ff5555;
+    --yellow: #f1fa8c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    padding: 40px 0;
+    border-bottom: 2px solid var(--current-line);
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: var(--purple);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: var(--comment);
+    font-style: italic;
+}
+
+nav {
+    background-color: var(--current-line);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+nav h2 {
+    color: var(--cyan);
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--comment);
+    display: inline-block;
+}
+
+nav ul {
+    list-style: none;
+    padding-left: 10px;
+}
+
+nav ul li {
+    margin: 8px 0;
+}
+
+nav ul ul {
+    margin-left: 20px;
+    list-style-type: circle;
+}
+
+nav a {
+    color: var(--pink);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--green);
+    text-decoration: underline;
+}
+
+main h1 {
+    color: var(--orange);
+    border-left: 5px solid var(--orange);
+    padding-left: 15px;
+    margin: 40px 0 20px;
+}
+
+main h2 {
+    color: var(--green);
+    margin: 25px 0 15px;
+}
+
+main h3 {
+    color: var(--cyan);
+    margin: 20px 0 10px;
+}
+
+p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+ul {
+    margin-bottom: 20px;
+    padding-left: 25px;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+strong {
+    color: var(--yellow);
+}
+
+/* Seções */
+section {
+    margin-bottom: 60px;
+}
+
+
+footer {
+    text-align: center;
+    color: var(--comment);
+    font-size: 0.9rem;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--current-line);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--comment);
+}
+    </style>
+</head>
+     
+<body>
+    <header>
+        <h1>Trabalho Final de Redes de Computadores</h1>
+        <p>Grupo 07, Matheus, Helena e Rogério</p>
+    </header>
+    <nav>
+    <h2>Sumário</h2>
+    <ul>
+        <li>
+            <a href="#introducao">1 Introdução</a>
+            <ul>
+                <li><a href="#oque">1.1 O que é o Apache Kafka</a></li>
+                <li><a href="#origem">1.2 Origem</a></li>
+                <li><a href="#dados-movimento">1.3 Dados em Movimento</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#conceitos">2 Conceitos Fundamentais</a>
+            <ul>
+                <li><a href="#mensagens">2.1 Mensagens e Batches</a></li>
+                <li><a href="#topicos">2.2 Tópicos e Partições</a></li>
+            </ul>
+        </li>
+        <li><a href="#arquitetura">3 Arquitetura e Componentes</a>
+            <ul>
+                <li><a href="#produtores">3.1Produtores e Consumidores</a></li>
+                <li><a href="#Brokers">3.2 Brokers e Clusters</a></li>
+                <li><a href="#replicacao">3.3 Replicação e Alta Disponibilidade</a></li>
+                <li><a href="#evolucao">3.4 Evolução da Coordenação</a></li>
+            </ul>
+        <li><a href="#escossistema">4 O Ecossistema de APIS</a>
+            <ul>
+                <li><a href="#producer">4.1 Producer Consumer APIs</a></li>
+                <li><a href="#kafkaconnect">4.2 Kafka Connect</a></li>
+                <li><a href="#Kafkastreams">4.3 Kafka Streams</a></li>
+
+            </ul>
+        </li>   
+        <li><a href="#casos">5 Casos de Uso e Benefícios</a>
+          <ul>
+            <li><a href="#casoscomuns">5.1 Casos Comuns</a></li>
+            <li><a href="#Vantagens">5.2 Vantagens Competitivas</a></li>
+          </ul>
+        </li> 
+        <li><a href="#conclusao">6 Conclusão</a></li>
+        <ul>
+            <li><a href="#integracoes">6.1 Integrações</a></li>
+            <li><a href="#hoje">6.2 Kafka hoje</a></li>
+        </ul>
+
+        </li>
+        <li><a href="#referencias">7 Referências</a>
+        </li>
+    </ul>
+</nav>
+
+
+    </nav>
+    <main>
+        <section id="introducao">
+            <h1>Introdução</h1>
+            <div id="oque">
+            <h2>1.1 O que é o Apache Kafka</h2>
+            <p>
+                O Apache Kafka é uma plataforma de streaming de eventos distribuída de código aberto, utilizada para coletar, processar e armazenar dados de eventos em tempo real
+.
+Ele é frequentemente descrito como um log de confirmação distribuído ou sistema de mensagens do tipo publicação/assinatura projetado para lidar com grandes volumes de dados (bilhões de eventos por minuto) de forma escalável e resiliente
+.
+Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines de dados internos, o Kafka tornou-se o padrão de mercado para fluxos de eventos, sendo utilizado hoje por mais de 80% das empresas Fortune 500.
+            </p>
+            <h3>Como Funciona?</h3>
+            O funcionamento do Kafka baseia-se em cinco funções e componentes principais:
+            <ul>
+                <li><strong>Publicar:</strong> Fontes de dados (produtores) enviam fluxos de eventos para categorias chamadas tópicos</li>
+                <li><strong>Consumir:</strong> Aplicativos (consumidores) assinam esses tópicos para ler, extrair e processar os dados conforme necessário</li>
+                <li><strong>Processar:</strong> Através da API Kafka Streams, a plataforma pode atuar como um processador, consumindo dados de entrada e produzindo novos fluxos de saída transformados em tempo real</li>
+                <li><strong>Conectar:</strong> Utiliza o Kafka Connect para criar conexões reutilizáveis que integram tópicos do Kafka a aplicativos e bancos de dados existentes</li>
+            </ul>
+            <h3>Diferenciais e Arquitetura</h3>
+            Diferente de sistemas de filas tradicionais (como o RabbitMQ), que geralmente excluem mensagens após o consumo, o Kafka retém os dados, permitindo que múltiplos consumidores leiam a mesma informação de forma independente
+               Sua infraestrutura é composta por um cluster de servidores (brokers)
+. Para garantir a escalabilidade e a tolerância a falhas, os tópicos são divididos em partições, que são distribuídas e replicadas entre os diferentes brokers do cluster
+. Isso garante que, se um servidor falhar, os dados permaneçam disponíveis em outros nós.
+            
+            <h3>Principais Casos de Uso</h3>
+            <ul>
+                <li><strong>Rastreamento de Atividade:</strong> Monitorar cliques e ações de usuários em sites para gerar relatórios ou alimentar sistemas de recomendação</strong></li>
+                <li><strong>Métricas e Logging:</strong> logs de sistemas e métricas de aplicativos de forma centralizada</li>
+                <li><strong>Microsserviços:</strong> Facilitar a comunicação assíncrona e desacoplada entre diferentes serviços de uma aplicação</li>
+                <li><Strong>Pipelines de Dados:</strong> Mover grandes volumes de dados de forma confiável entre sistemas empresariais e plataformas de Big Data ou Data Lakes</Strong></li>
+            </ul>
+        </div>
+        <div id="origem">
+            <h2>1.2 Origem</h2>
+            O Apache Kafka teve sua origem no LinkedIn para resolver problemas críticos de infraestrutura relacionados a pipelines de dados e processamento em tempo real
+. A empresa precisava de um sistema de alto desempenho que pudesse lidar com bilhões de eventos diários, algo que as ferramentas existentes na época não conseguiam suportar.
+            
+
+
+        </div>
+        </section>
+
+    </main>
+  
+</body>
+</html>
