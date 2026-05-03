@@ -260,9 +260,96 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
             O Apache Kafka teve sua origem no LinkedIn para resolver problemas críticos de infraestrutura relacionados a pipelines de dados e processamento em tempo real
 . A empresa precisava de um sistema de alto desempenho que pudesse lidar com bilhões de eventos diários, algo que as ferramentas existentes na época não conseguiam suportar.
             
-
-
+            <h3>Problema no LinkedIn</h3>
+            Originalmente, o LinkedIn possuía sistemas separados para coletar métricas e rastrear atividades de usuários (cliques, visualizações de perfil, etc.)
+. Essas soluções eram ineficientes, exigiam intervenção humana constante e tinham atrasos de horas no processamento
+. A empresa chegou a testar soluções como o ActiveMQ, mas elas se mostraram frágeis e incapazes de escalar para o volume de tráfego necessário
+            <h3>Os Criadores</h3>
+            Diante da necessidade de uma solução customizada, uma equipe interna liderada por Jay Kreps, Neha Narkhede e Jun Rao desenvolveu o Kafka
+. Eles buscaram criar um sistema que combinasse a interface de mensageria tradicional com uma camada de armazenamento persistente semelhante a um log de agregação
+.           <p></p>
+            <p>Sendo assim, os objetivos principais do projeto eram:</p>
+            <ul>
+                <li><strong>Desacoplar</strong> produtores e consumidores usando um modelo de "empurrar e puxar" (push-pull)</li>
+                <li><strong>Garantir</strong> a persistência das mensagens para permitir que múltiplos consumidores as lessem de forma independente</li>
+                <li><strong>Otimizar</strong> para alto rendimento (throughput) e permitir a escalabilidade horizontal à medida que os dados crescessem</li>
+                
+            </ul>
+            <h3>Evolução para Código Aberto</h3>
+            <ul>
+                <li>2010: O Kafka foi lançado como um projeto de código aberto no GitHub no final do ano</li>
+                <li>2011: Em julho, foi aceito como um projeto de incubação na Apache Software Foundation</li>
+                <li>2012: Graduou-se como um projeto de nível superior da fundação em outubro</li>
+                <li>2014: Os fundadores originais deixaram o LinkedIn para fundar a Confluent, focada em fornecer suporte e serviços empresariais para o Kafka</li>
+            </ul>
+            <h3>Origem do Nome</h3>
+            <p>O nome foi escolhido por Jay Kreps em homenagem ao escritor Franz Kafka
+. Kreps, que gostava das aulas de literatura na faculdade, pensou que, por ser um sistema otimizado para escrita, o nome de um escritor faria sentido
+. Além disso, ele considerou que "Kafka" soava bem para um projeto de código aberto, embora não exista uma relação técnica direta entre o autor e a aplicação
+.</p>
+            
         </div>
+        <div id="dados-movimento">
+            <h2> 1.3 Dados em Movimento</h2>
+             <p>
+                O conceito de dados em movimento (data in motion) é central para a arquitetura do Apache Kafka, representando uma mudança de paradigma em relação ao processamento tradicional de dados
+. Enquanto os bancos de dados relacionais e sistemas de armazenamento convencionais focam no gerenciamento de dados em repouso (data at rest), o Kafka foi projetado para lidar com o fluxo contínuo e evolutivo de informações que circulam em uma organização
+.
+             </p>
+             <ul>
+                <li><strong>A Fundação dos Dados em Movimento:</strong> O Kafka é considerado a fundação de fato para qualquer plataforma que gerencie dados em movimento, servindo como o sistema circulatório que conecta centenas de aplicações, microsserviços e sistemas de análise em tempo real.</li>
+                <li><strong>Streaming de Eventos:</strong> O gerenciamento de dados em movimento é realizado através do streaming de eventos, que consiste no processamento contínuo de fluxos infinitos de registros à medida que são criados
+. Isso permite capturar o valor temporal dos dados, permitindo que as empresas reajam instantaneamente a eventos à medida que eles ocorrem, em vez de esperar por processamentos em lote (batch) que podem levar horas ou dias.</li>
+                <li><strong>Fluxos como Ativos Centrais:</strong> Em uma empresa digital moderna, esses fluxos de dados são vistos como o aspecto mais central da operação, sendo comparados em importância aos fluxos de caixa em um demonstrativo financeiro.</li>
+                <li><strong>Abstração de Streaming:</strong> O Kafka permite tratar os dados não como pilhas estáticas, mas como um log de confirmação distribuído, onde cada evento é registrado de forma durável e ordenada, permitindo que múltiplos consumidores leiam e processem a mesma informação de forma independente.</li>
+                <li><strong>Desacoplamento de Timelines:</strong> Ao atuar como um buffer gigante e confiável, o Kafka desacopla a sensibilidade temporal entre quem produz os dados e quem os consome
+. Isso permite que um produtor envie dados em tempo real enquanto um consumidor os processa em lotes diários, ou vice-versa, sem perda de integridade.</li>
+                <li><strong>Aplicações Práticas:</strong> Exemplos típicos de dados em movimento incluem o monitoramento do comportamento de clientes em sites de e-commerce, análise de telemetria de dispositivos IoT e detecção de fraudes financeiras em milissegundos.</li>
+             </ul>
+             <p>
+                <mark>Diferente das filas de mensagens tradicionais que excluem dados após o consumo, a capacidade do Kafka de reter dados em movimento por períodos configuráveis permite que eventos passados sejam relidos e reprocessados deterministicamente, o que é essencial para corrigir erros ou realizar novas análises sobre o histórico.</mark>
+
+             </p>
+        </div>
+        </section>
+
+        <section id="conceitos">
+            <h1>Conceitos Fundamentais</h1>
+            <div id="mensagens">
+             <h2>2.1 Mensagens e Batches</h2>
+             <h3>
+                Mensagens
+             </h3>
+             <p>
+                A unidade de dados fundamental dentro do Apache Kafka é denominada mensagem, que pode ser compreendida de forma análoga a uma linha ou a um registro em um banco de dados tradicional
+. Para o sistema Kafka, uma mensagem é tratada apenas como um array de bytes, o que significa que a plataforma não impõe nem interpreta um formato ou significado específico para o conteúdo dos dados.
+
+             </p>
+             <p>Além do valor principal, uma mensagem pode conter uma peça opcional de metadados chamada chave, também composta por um array de bytes, que é utilizada para controlar de maneira mais precisa em qual partição de um tópico a mensagem será gravada
+. Através do uso de chaves e algoritmos de hash consistentes, o Kafka garante que todas as mensagens com a mesma chave sejam sempre direcionadas para a mesma partição, mantendo assim a ordem de leitura para esses registros específicos.
+</p>
+             <h3>Batches</h3>
+             <p>
+                Para otimizar o desempenho, as mensagens não são enviadas individualmente, mas sim em batches. Um lote é uma coleção de mensagens destinadas ao mesmo tópico e à mesma partição. Enviar cada mensagem individualmente pela rede geraria um custo de comunicação (overhead) excessivo. O agrupamento em lotes reduz drasticamente o número de viagens de ida e volta (round trips) pela rede.
+                
+             </p>
+             <p><strong>Compressão:</strong> Os lotes são tipicamente comprimidos (usando algoritmos como Gzip, Snappy, Lz4 ou Zstd). Isso torna a transferência e o armazenamento em disco muito mais eficientes, embora exija um pouco mais de CPU para processar a compressão e descompressão</p>
+             <h3>O Compromisso entre Latência e Vazão</h3>
+             <ul>
+                <li><strong>Vazão(Throughput):</strong> Quanto maiores os lotes, mais mensagens o sistema consegue processar por segundo, aproveitando melhor a largura de banda e a compressão. </li>
+                <li><strong>Latência:</strong> Lotes maiores podem aumentar o tempo que uma mensagem individual leva para ser entregue, pois o sistema precisa esperar o lote "encher" ou atingir um tempo limite antes de enviá-lo.</li>
+
+             </ul>
+             <h3>Parâmetros de Controle do Produtor</h3>
+             <p>O cliente produtor controla o comportamento dos lotes através de duas configurações principais:</p>
+             <ul>
+                <li><mark>batch.size:</mark> Define o limite de memória (em bytes) para cada lote. Quando o lote atinge esse tamanho, ele é enviado imediatamente.</li>
+                <li><mark>linger.ms:</mark> Construiu o produtor a esperar um determinado número de milissegundos para que mais mensagens sejam adicionadas ao lote antes do envio, mesmo que o tamanho máximo ainda não tenha sido atingido
+. Por padrão, o Kafka envia as mensagens assim que um thread de envio está disponível, mas configurar um pequeno atraso (como linger.ms=10) aumenta a chance de enviar mais mensagens juntas, melhorando o desempenho.</li>
+
+             </ul>
+               
+            </div>
         </section>
 
     </main>
