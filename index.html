@@ -189,7 +189,7 @@ footer {
         <li><a href="#arquitetura">3 Arquitetura e Componentes</a>
             <ul>
                 <li><a href="#produtores">3.1Produtores e Consumidores</a></li>
-                <li><a href="#Brokers">3.2 Brokers e Clusters</a></li>
+                <li><a href="#brokers">3.2 Brokers e Clusters</a></li>
                 <li><a href="#replicacao">3.3 Replicação e Alta Disponibilidade</a></li>
                 <li><a href="#evolucao">3.4 Evolução da Coordenação</a></li>
             </ul>
@@ -346,11 +346,83 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
                 <li><mark>batch.size:</mark> Define o limite de memória (em bytes) para cada lote. Quando o lote atinge esse tamanho, ele é enviado imediatamente.</li>
                 <li><mark>linger.ms:</mark> Construiu o produtor a esperar um determinado número de milissegundos para que mais mensagens sejam adicionadas ao lote antes do envio, mesmo que o tamanho máximo ainda não tenha sido atingido
 . Por padrão, o Kafka envia as mensagens assim que um thread de envio está disponível, mas configurar um pequeno atraso (como linger.ms=10) aumenta a chance de enviar mais mensagens juntas, melhorando o desempenho.</li>
-
              </ul>
-               
+             <h3>Processamento no Broker</h3>
+             <p>
+                A partir da evolução para o formato de mensagem v2 na versão 0.11, o Kafka passou a exigir que as mensagens sejam sempre enviadas em lotes, introduzindo cabeçalhos que contêm metadados detalhados como offsets iniciais, atributos de compressão e somas de verificação para garantir a integridade
+. 
+             </p>
+               <p>
+                Dentro desses lotes modernos, cada registro individual armazena apenas a diferença em relação ao offset e ao carimbo de tempo inicial do batch, o que reduz drasticamente o overhead por mensagem e melhora a escalabilidade do sistema
+.
+               </p>
+            </div>
+            <div id="topicos">
+                <h2>2.2 Tópicos e Partições</h2>
+                <h3>Tópicos</h3>
+                <p>Um tópico é uma categoria ou nome de feed no qual as mensagens são publicadas.
+                     Sendo assim, um tópico é semelhante a uma tabela de banco de dados, ou uma pasta
+                    em um sistema de arquivos. Além disso, uma vez que um registro é gravado em um tópico, ele não pode ser alterado ou excluído (embora expire após um período configurável). É importante ressaltar que um  tópico pode ter vários produtores enviando dados e vários consumidores lendo de forma independente. </p>
+                    <h3>Partições</h3>
+                    <p>
+                        Cada tópico é decomposto em uma ou mais partições
+. Uma partição é um log de confirmação distribuído onde as mensagens são gravadas de forma sequencial (apenas anexação)
+. O Kafka garante a ordem das mensagens apenas dentro de uma partição individual, não em todo o tópico.
+                    </p>     
+                    <p>
+                        Sendo assim, as partições são o mecanismo que permite ao Kafka escalar horizontalmente.
+ Cada partição pode ser hospedada em um servidor (broker) diferente, permitindo que um único tópico seja distribuído por todo o cluster para lidar com volumes massivos de dados. É importante salientar que  cada mensagem dentro de uma partição recebe um número de identificação exclusivo e crescente chamado offset
+. Os consumidores usam esse offset para rastrear sua posição de leitura
+.
+                   </p>
+                   <h3>Redundância e Replicação</h3>
+                   <ul>
+                    <li><strong>Replicação:</strong> Para garantir a disponibilidade, as partições podem ser replicadas em vários servidores.</li>
+                    <li><strong>Líderes e Seguidores:</strong> Cada partição possui um único broker que atua como líder, lidando com todas as solicitações de leitura e escrita, enquanto outros brokers atuam como seguidores, apenas replicando os dados do líder.</li>
+                    <li><strong>Tolerância a Falhas:</strong> Se o broker líder falhar, um dos seguidores em sincronia (ISR) é automaticamente eleito como o novo líder.</li>
+                   </ul>
+                  <h3>Produção e Consumo por Partição</h3>
+                  <p>
+                    No Apache Kafka, a eficiência na movimentação de dados é garantida por mecanismos específicos de produção e consumo vinculados às partições dos tópicos. Por padrão, os produtores realizam o balanceamento de carga distribuindo as mensagens de forma uniforme entre todas as partições de um tópico, o que otimiza a utilização dos recursos do cluster
+. Entretanto, esse comportamento pode ser personalizado através do uso de chaves, onde, se uma mensagem contiver uma chave, o Kafka aplica um algoritmo de hash consistente para direcioná-la a uma partição específica
+. Esse processo assegura que todas as mensagens com a mesma chave sejam sempre gravadas na mesma partição, o que é fundamental para preservar a ordem de leitura cronológica desses registros específicos
+.
+                  </p>
+                  <p>
+                    No lado do consumo, o escalonamento é realizado através dos grupos de consumidores, que permitem que múltiplas instâncias de uma aplicação dividam o trabalho de leitura de um tópico
+. Dentro de um grupo, o Kafka estabelece uma coordenação que garante que cada partição seja lida por apenas um membro do grupo por vez, criando um mapeamento de exclusividade frequentemente chamado de "propriedade" da partição
+. Essa estrutura possibilita o escalonamento horizontal do processamento, permitindo que novos consumidores sejam adicionados para dividir a carga de trabalho até que o número de consumidores atinja o limite do número de partições existentes no tópico, ponto após o qual novos membros permaneceriam inativos sem partições atribuídas para processar
+                  </p>
+                  <h3>Considerações de Gerenciamento</h3>
+                  <ul>
+                    <li><strong>Escolha da Quantidade:</strong> O número de partições deve ser decidido com base na vazão (throughput) desejada
+. Uma fórmula comum é dividir a vazão total esperada pela vazão que um único consumidor consegue processar.</li>
+                    <li><strong>Alterações:</strong> É possível aumentar o número de partições de um tópico existente, mas nunca diminuí-lo, pois isso causaria perda de dados e inconsistências.</li>
+
+                  </ul>
             </div>
         </section>
+        <!-- AS SESSÕES QUE FALTAM FAZER!-->
+         <!--TOPICO ARQUITETURA...-->
+        <section id="arquitetura">
+            <h1>3 Arquitetura e Componentes</h1>
+            <div id="produtores">
+                <h2>3.1 Produtores e Consumidores</h2>
+            </div>
+            <div id="brokers">
+                <h2>3.2 Brokers e Clusters</h2>
+            </div>
+            <div id="replicacao">
+                <h2>3.3 Replicação e Alta Disponibilidade</h2>
+            </div>
+            <div id="evolucao">
+                <h2>3.4 Evolução da Coordenação</h2>
+            </div>
+
+        </section>
+
+        <!--CONTINUAR A CRIAÇÃO DE SECTION...
+        -->
 
     </main>
   
