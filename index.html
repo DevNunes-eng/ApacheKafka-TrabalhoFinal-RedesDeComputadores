@@ -7,17 +7,16 @@
     <style>
         
 :root {
-    --bg: #282a36;
-    --current-line: #44475a;
-    --fg: #f8f8f2;
-    --comment: #6272a4;
-    --cyan: #8be9fd;
-    --green: #50fa7b;
-    --orange: #ffb86c;
-    --pink: #ff79c6;
-    --purple: #bd93f9;
-    --red: #ff5555;
-    --yellow: #f1fa8c;
+    --bg: #f8f9fa;               /* Fundo principal (cinza claro bem suave) */
+    --card-bg: #ffffff;          /* Fundo de blocos/cards (branco puro) */
+    --current-line: #e9ecef;     /* Linhas de divisão e bordas leves */
+    --fg: #212529;               /* Texto principal (grafite escuro para melhor legibilidade) */
+    --comment: #6c757d;          /* Textos secundários e itálicos */
+    --accent-blue: #0d6efd;      /* Azul institucional para links e h3 */
+    --accent-purple: #6f42c1;    /* Roxo para títulos principais */
+    --accent-orange: #fd7e14;    /* Laranja para destaque de seções */
+    --accent-green: #198754;     /* Verde esmeralda para h2 */
+    --highlight: #0a58ca;        /* Azul mais forte para hover */
 }
 
 * {
@@ -44,7 +43,7 @@ header {
 }
 
 header h1 {
-    color: var(--purple);
+    color: var(--accent-purple);
     font-size: 2.5rem;
     margin-bottom: 10px;
 }
@@ -55,18 +54,20 @@ header p {
 }
 
 nav {
-    background-color: var(--current-line);
+    background-color: var(--card-bg);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 40px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    border: 1px solid var(--current-line);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Sombra bem suave para dar profundidade */
 }
 
 nav h2 {
-    color: var(--cyan);
+    color: var(--accent-blue);
     margin-bottom: 15px;
-    border-bottom: 1px solid var(--comment);
+    border-bottom: 2px solid var(--current-line);
     display: inline-block;
+    padding-bottom: 4px;
 }
 
 nav ul {
@@ -84,30 +85,31 @@ nav ul ul {
 }
 
 nav a {
-    color: var(--pink);
+    color: var(--accent-purple);
     text-decoration: none;
-    transition: 0.3s;
+    font-weight: 500;
+    transition: 0.2s;
 }
 
 nav a:hover {
-    color: var(--green);
+    color: var(--accent-blue);
     text-decoration: underline;
 }
 
 main h1 {
-    color: var(--orange);
-    border-left: 5px solid var(--orange);
+    color: var(--accent-orange);
+    border-left: 5px solid var(--accent-orange);
     padding-left: 15px;
     margin: 40px 0 20px;
 }
 
 main h2 {
-    color: var(--green);
+    color: var(--accent-green);
     margin: 25px 0 15px;
 }
 
 main h3 {
-    color: var(--cyan);
+    color: var(--accent-blue);
     margin: 20px 0 10px;
 }
 
@@ -125,15 +127,23 @@ ul li {
     margin-bottom: 10px;
 }
 
+/* Alterado para destacar palavras importantes sem cansar a vista */
 strong {
-    color: var(--yellow);
+    color: #000000;
+    background-color: #fff3cd; /* Um leve marca-texto amarelo para destacar no fundo claro */
+    padding: 0 4px;
+    border-radius: 4px;
 }
 
 /* Seções */
 section {
     margin-bottom: 60px;
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--current-line);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
-
 
 footer {
     text-align: center;
@@ -141,9 +151,10 @@ footer {
     font-size: 0.9rem;
     margin-top: 50px;
     padding: 20px;
+    border-top: 1px solid var(--current-line);
 }
 
-
+/* Scrollbar adaptada para o tema claro */
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -153,12 +164,12 @@ footer {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--current-line);
+    background: #ccc;
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--comment);
+    background: #999;
 }
     </style>
 </head>
@@ -226,6 +237,7 @@ footer {
             <h1>Introdução</h1>
             <div id="oque">
             <h2>1.1 O que é o Apache Kafka</h2>
+            <img src="image/apachekafkalogo.png" alt="Logo do Apache Kafka" class="img-responsiva">
             <p>
                 O Apache Kafka é uma plataforma de streaming de eventos distribuída de código aberto, utilizada para coletar, processar e armazenar dados de eventos em tempo real
 .
@@ -265,14 +277,15 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
 . Essas soluções eram ineficientes, exigiam intervenção humana constante e tinham atrasos de horas no processamento
 . A empresa chegou a testar soluções como o ActiveMQ, mas elas se mostraram frágeis e incapazes de escalar para o volume de tráfego necessário
             <h3>Os Criadores</h3>
+           <img src="image/criadores.png" alt="Criadores do Apache Kafka" class="img-responsiva" style="max-width: 500px; display: block; margin: 0 auto 20px auto;">
             Diante da necessidade de uma solução customizada, uma equipe interna liderada por Jay Kreps, Neha Narkhede e Jun Rao desenvolveu o Kafka
 . Eles buscaram criar um sistema que combinasse a interface de mensageria tradicional com uma camada de armazenamento persistente semelhante a um log de agregação
 .           <p></p>
             <p>Sendo assim, os objetivos principais do projeto eram:</p>
             <ul>
-                <li><strong>Desacoplar</strong> produtores e consumidores usando um modelo de "empurrar e puxar" (push-pull)</li>
-                <li><strong>Garantir</strong> a persistência das mensagens para permitir que múltiplos consumidores as lessem de forma independente</li>
-                <li><strong>Otimizar</strong> para alto rendimento (throughput) e permitir a escalabilidade horizontal à medida que os dados crescessem</li>
+                <li><strong>Desacoplar:</strong> produtores e consumidores usando um modelo de "empurrar e puxar" (push-pull)</li>
+                <li><strong>Garantir:</strong> a persistência das mensagens para permitir que múltiplos consumidores as lessem de forma independente</li>
+                <li><strong>Otimizar:</strong> para alto rendimento (throughput) e permitir a escalabilidade horizontal à medida que os dados crescessem</li>
                 
             </ul>
             <h3>Evolução para Código Aberto</h3>
