@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -171,6 +171,33 @@ footer {
 ::-webkit-scrollbar-thumb:hover {
     background: #999;
 }
+/* Imagens responsivas */
+.img-responsiva {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 25px auto;
+    border-radius: 8px;
+}
+
+/* Legenda das imagens */
+.legenda {
+    text-align: center;
+    color: var(--comment);
+    font-size: 0.95rem;
+    margin-top: -10px;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+/* Caixa de destaque */
+.destaque {
+    background-color: #e7f1ff;
+    border-left: 5px solid var(--accent-blue);
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 6px;
+}
     </style>
 </head>
      
@@ -197,14 +224,17 @@ footer {
                 <li><a href="#topicos">2.2 Tópicos e Partições</a></li>
             </ul>
         </li>
-        <li><a href="#arquitetura">3 Arquitetura e Componentes</a>
+        <li>
+            <a href="#arquitetura">3 Arquitetura e Componentes</a>
             <ul>
-                <li><a href="#produtores">3.1Produtores e Consumidores</a></li>
+                <li><a href="#produtores">3.1 Produtores e Consumidores</a></li>
                 <li><a href="#brokers">3.2 Brokers e Clusters</a></li>
                 <li><a href="#replicacao">3.3 Replicação e Alta Disponibilidade</a></li>
                 <li><a href="#evolucao">3.4 Evolução da Coordenação</a></li>
             </ul>
-        <li><a href="#escossistema">4 O Ecossistema de APIS</a>
+        </li>
+        <li>
+        <a href="#escossistema">4 O Ecossistema de APIS</a>
             <ul>
                 <li><a href="#producer">4.1 Producer Consumer APIs</a></li>
                 <li><a href="#kafkaconnect">4.2 Kafka Connect</a></li>
@@ -212,26 +242,27 @@ footer {
 
             </ul>
         </li>   
-        <li><a href="#casos">5 Casos de Uso e Benefícios</a>
+        <li>
+            <a href="#casos">5 Casos de Uso e Benefícios</a>
           <ul>
             <li><a href="#casoscomuns">5.1 Casos Comuns</a></li>
             <li><a href="#Vantagens">5.2 Vantagens Competitivas</a></li>
           </ul>
         </li> 
-        <li><a href="#conclusao">6 Conclusão</a></li>
-        <ul>
-            <li><a href="#integracoes">6.1 Integrações</a></li>
-            <li><a href="#hoje">6.2 Kafka hoje</a></li>
-        </ul>
-
+        <li>
+            <a href="#conclusao">6 Conclusão</a>
+            <ul>
+                <li><a href="#integracoes">6.1 Integrações</a></li>
+                <li><a href="#hoje">6.2 Kafka hoje</a></li>
+            </ul>
         </li>
-        <li><a href="#referencias">7 Referências</a>
+
+        <li>
+            <a href="#referencias">7 Referências</a>
         </li>
     </ul>
 </nav>
 
-
-    </nav>
     <main>
         <section id="introducao">
             <h1>Introdução</h1>
@@ -261,10 +292,10 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
             
             <h3>Principais Casos de Uso</h3>
             <ul>
-                <li><strong>Rastreamento de Atividade:</strong> Monitorar cliques e ações de usuários em sites para gerar relatórios ou alimentar sistemas de recomendação</strong></li>
+                <li><strong>Rastreamento de Atividade:</strong> Monitorar cliques e ações de usuários em sites para gerar relatórios ou alimentar sistemas de recomendação</li>
                 <li><strong>Métricas e Logging:</strong> logs de sistemas e métricas de aplicativos de forma centralizada</li>
                 <li><strong>Microsserviços:</strong> Facilitar a comunicação assíncrona e desacoplada entre diferentes serviços de uma aplicação</li>
-                <li><Strong>Pipelines de Dados:</strong> Mover grandes volumes de dados de forma confiável entre sistemas empresariais e plataformas de Big Data ou Data Lakes</Strong></li>
+                <li><strong>Pipelines de Dados:</strong> Mover grandes volumes de dados de forma confiável entre sistemas empresariais e plataformas de Big Data ou Data Lakes</li>
             </ul>
         </div>
         <div id="origem">
@@ -357,7 +388,7 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
              <p>O cliente produtor controla o comportamento dos lotes através de duas configurações principais:</p>
              <ul>
                 <li><mark>batch.size:</mark> Define o limite de memória (em bytes) para cada lote. Quando o lote atinge esse tamanho, ele é enviado imediatamente.</li>
-                <li><mark>linger.ms:</mark> Construiu o produtor a esperar um determinado número de milissegundos para que mais mensagens sejam adicionadas ao lote antes do envio, mesmo que o tamanho máximo ainda não tenha sido atingido
+                <li><mark>linger.ms:</mark> Faz o produtor esperar um determinado número de milissegundos para que mais mensagens sejam adicionadas ao lote antes do envio, mesmo que o tamanho máximo ainda não tenha sido atingido
 . Por padrão, o Kafka envia as mensagens assim que um thread de envio está disponível, mas configurar um pequeno atraso (como linger.ms=10) aumenta a chance de enviar mais mensagens juntas, melhorando o desempenho.</li>
              </ul>
              <h3>Processamento no Broker</h3>
@@ -385,9 +416,14 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
                     <p>
                         Sendo assim, as partições são o mecanismo que permite ao Kafka escalar horizontalmente.
  Cada partição pode ser hospedada em um servidor (broker) diferente, permitindo que um único tópico seja distribuído por todo o cluster para lidar com volumes massivos de dados. É importante salientar que  cada mensagem dentro de uma partição recebe um número de identificação exclusivo e crescente chamado offset
-. Os consumidores usam esse offset para rastrear sua posição de leitura
-.
+. Os consumidores usam esse offset para rastrear sua posição de leitura.
                    </p>
+                    <img src="image/particao_kafka.png" 
+                         alt="Exemplo do interior de uma partição Kafka em um sistema de delivery" 
+                         class="img-responsiva">
+                    <p class="legenda">
+                        Figura 3: Exemplo do interior de uma partição em um sistema de delivery. Cada evento ocupa uma posição na partição, chamada offset.
+                    </p>
                    <h3>Redundância e Replicação</h3>
                    <ul>
                     <li><strong>Replicação:</strong> Para garantir a disponibilidade, as partições podem ser replicadas em vários servidores.</li>
@@ -415,22 +451,244 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
                   </ul>
             </div>
         </section>
-        <!-- AS SESSÕES QUE FALTAM FAZER!-->
-         <!--TOPICO ARQUITETURA...-->
+         <!--TOPICO ARQUITETURA-->
         <section id="arquitetura">
             <h1>3 Arquitetura e Componentes</h1>
             <div id="produtores">
                 <h2>3.1 Produtores e Consumidores</h2>
+
+                <p>
+                    Na arquitetura do Apache Kafka, os <strong>produtores</strong> e os
+                    <strong>consumidores</strong> representam as aplicações que se comunicam por meio
+                    da plataforma. Os produtores são responsáveis por publicar eventos nos tópicos,
+                    enquanto os consumidores leem esses eventos para executar algum processamento,
+                    atualizar sistemas ou gerar informações para outras aplicações.
+                </p>
+
+                <p>
+                    Essa comunicação não ocorre diretamente entre produtor e consumidor. Em vez disso,
+                    o produtor envia a mensagem para o Kafka, que armazena o evento em um tópico.
+                    Depois, um ou mais consumidores podem ler esse evento. Essa característica reduz
+                    o acoplamento entre sistemas, pois quem produz a informação não precisa saber
+                    exatamente quais aplicações irão consumi-la.
+                </p>
+
+                <h3>Produtores</h3>
+
+                <p>
+                    Um produtor é qualquer aplicação capaz de enviar mensagens para um tópico Kafka.
+                    Por exemplo, um site de comércio eletrônico pode produzir eventos como
+                    <mark>pedido criado</mark>, <mark>pagamento aprovado</mark> ou
+                    <mark>produto visualizado</mark>. Cada um desses eventos pode ser enviado para
+                    um tópico específico, como <mark>pedidos</mark>, <mark>pagamentos</mark> ou
+                    <mark>cliques</mark>.
+                </p>
+
+                <ul>
+                    <li>
+                        O produtor publica mensagens em tópicos.
+                    </li>
+                    <li>
+                        As mensagens podem ser enviadas com uma chave, usada para definir em qual
+                        partição elas serão armazenadas.
+                    </li>
+                    <li>
+                        Mensagens com a mesma chave tendem a ser enviadas para a mesma partição,
+                        o que ajuda a preservar a ordem desses eventos.
+                    </li>
+                    <li>
+                        O envio pode ser feito de forma assíncrona, favorecendo desempenho e escalabilidade.
+                    </li>
+                </ul>
+
+                <h3>Consumidores</h3>
+
+                <p>
+                    Um consumidor é uma aplicação que lê mensagens armazenadas nos tópicos do Kafka.
+                    Diferentes consumidores podem ler o mesmo tópico para finalidades distintas. Por
+                    exemplo, a partir de um evento de pagamento aprovado, um sistema pode enviar uma
+                    notificação ao cliente, outro pode atualizar um painel de vendas e outro pode
+                    alimentar um sistema antifraude.
+                </p>
+
+                <ul>
+                    <li>
+                        O consumidor lê mensagens dos tópicos.
+                    </li>
+                    <li>
+                        Ele controla sua posição de leitura por meio do <strong>offset</strong>.
+                    </li>
+                    <li>
+                        Como as mensagens permanecem armazenadas por um período configurável,
+                        consumidores diferentes podem ler os mesmos eventos de forma independente.
+                    </li>
+                    <li>
+                        Isso permite reprocessar dados antigos, criar novos serviços consumidores
+                        e recuperar falhas sem depender diretamente do produtor.
+                    </li>
+                </ul>
+
+                <h3>Grupos de Consumidores</h3>
+
+                <p>
+                    Para aumentar a capacidade de processamento, o Kafka permite organizar consumidores
+                    em <strong>grupos de consumidores</strong>. Dentro de um mesmo grupo, as partições
+                    de um tópico são distribuídas entre os consumidores disponíveis. Assim, o trabalho
+                    de leitura pode ser dividido entre várias instâncias da mesma aplicação.
+                </p>
+
+                <p>
+                    Por exemplo, se um tópico possui três partições, três consumidores de um mesmo
+                    grupo podem processar os dados em paralelo, cada um lendo uma partição. Essa
+                    divisão é uma das razões pelas quais o Kafka consegue lidar com grandes volumes
+                    de dados.
+                </p>
+
+                <div class="destaque">
+                    <p>
+                        <strong>Importante:</strong> diferente de uma fila tradicional, em que a mensagem
+                        costuma ser removida após o consumo, no Kafka os eventos podem permanecer
+                        armazenados por um tempo definido. Isso permite que vários consumidores leiam
+                        os mesmos dados em momentos diferentes.
+                    </p>
+                </div>
+
+                <h3>Exemplo prático</h3>
+
+                <p>
+                    Considere uma compra realizada em uma loja virtual. O sistema de vendas atua como
+                    produtor e publica o evento <mark>compra realizada</mark> em um tópico do Kafka.
+                    A partir desse mesmo evento, diferentes consumidores podem executar tarefas
+                    independentes: o sistema de pagamento valida a transação, o sistema de estoque
+                    atualiza a quantidade disponível, o sistema de e-mail envia a confirmação ao
+                    cliente e o sistema de análise registra a venda para relatórios.
+                </p>
+
+                <p>
+                    Dessa forma, o Kafka funciona como um intermediário entre os sistemas, permitindo
+                    comunicação em tempo real, maior organização dos dados e menor dependência direta
+                    entre as aplicações.
+                </p>
             </div>
-            <div id="brokers">
-                <h2>3.2 Brokers e Clusters</h2>
-            </div>
-            <div id="replicacao">
-                <h2>3.3 Replicação e Alta Disponibilidade</h2>
-            </div>
-            <div id="evolucao">
-                <h2>3.4 Evolução da Coordenação</h2>
-            </div>
+            
+        <div id="brokers">
+    <h2>3.2 Brokers e Clusters</h2>
+
+    <p>
+        No Apache Kafka, um <strong>broker</strong> é um servidor responsável por
+        receber, armazenar e disponibilizar mensagens para os consumidores. Em uma
+        aplicação real, normalmente o Kafka não é executado em apenas um servidor,
+        mas em um conjunto de brokers que trabalham de forma coordenada.
+    </p>
+
+    <p>
+        Esse conjunto de brokers recebe o nome de <strong>cluster Kafka</strong>.
+        O cluster permite distribuir a carga de trabalho entre diferentes servidores,
+        aumentando a capacidade de processamento e reduzindo a dependência de uma
+        única máquina.
+    </p>
+
+    <p>
+        É importante observar que um broker não precisa armazenar um tópico inteiro.
+        Na prática, o Kafka distribui as <strong>partições</strong> dos tópicos entre
+        os brokers, o que permite que o sistema processe um volume maior de eventos,
+        pois a leitura e a escrita não ficam concentradas em um único broker.
+    </p>
+
+</div>
+
+<div id="replicacao">
+    <h2>3.3 Replicação e Alta Disponibilidade</h2>
+
+    <p>
+        A <strong>replicação</strong> é o mecanismo usado pelo Kafka para aumentar a
+        tolerância a falhas. Em vez de manter uma partição armazenada em apenas um
+        broker, o Kafka pode criar cópias dessa partição em outros brokers do cluster.
+        Essas cópias são chamadas de réplicas.
+    </p>
+
+    <p>
+        Para cada partição, uma das réplicas atua como <strong>líder</strong>, 
+        responsável por atender as operações principais de leitura e escrita daquela
+        partição. As demais réplicas atuam como <strong>seguidoras</strong>, mantendo
+        cópias atualizadas dos dados armazenados pelo líder. Se o Broker do líder falhar, 
+        uma das réplicas seguidoras pode ser escolhida como novo líder, o que garante o 
+        funcionamento do sistema mesmo diante da falha de um servidor.
+    </p>
+
+    <img src="image/cluster_kafka.png" 
+     alt="Estrutura de um cluster Kafka com brokers, partições líderes e seguidoras" 
+     class="img-responsiva">
+
+    <p class="legenda">
+        Figura 2: Exemplo de cluster Kafka com três brokers. Cada broker armazena partições de um tópico, podendo haver partições líderes e réplicas seguidoras.
+    </p>
+
+    <h3>Alta disponibilidade</h3>
+
+    <p>
+        A alta disponibilidade significa que o sistema continua acessível mesmo quando
+        parte da infraestrutura apresenta falhas. No Kafka, isso é obtido pela combinação
+        de cluster, distribuição de partições e replicação.
+    </p>
+
+    <p>
+        Em um sistema de delivery, por exemplo, perder eventos como
+        <mark>pagamento aprovado</mark> ou <mark>pedido saiu para entrega</mark> poderia
+        causar inconsistências graves. A replicação reduz esse risco, pois mantém cópias
+        dos dados em mais de um broker.
+    </p>
+
+    <img src="image/hierarquia_kafka.png" 
+     alt="Hierarquia lógica do Apache Kafka: mensagem, offset, partição, tópico, brokers e cluster" 
+     class="img-responsiva">
+
+<p class="legenda">
+    Figura 4: Hierarquia lógica do Apache Kafka. A unidade básica é a mensagem ou evento; o offset indica sua posição na partição; partições formam tópicos; tópicos são distribuídos entre brokers dentro de um cluster.
+</p>
+
+</div>
+
+<div id="evolucao">
+    <h2>3.4 Evolução da Coordenação</h2>
+
+    <p>
+        Além de armazenar mensagens, o Kafka precisa coordenar várias informações internas
+        do cluster. Por exemplo, é necessário saber quais brokers estão ativos, qual broker
+        é o líder de cada partição, onde estão as réplicas e como o cluster deve reagir
+        quando uma máquina falha.
+    </p>
+
+    <p>
+        Nas versões mais antigas, essa coordenação era feita com o auxílio de uma ferramenta
+        externa chamada <strong>Apache ZooKeeper</strong>. O ZooKeeper era responsável por
+        manter metadados do cluster e ajudar na eleição de líderes das partições.
+    </p>
+
+    <h3>Uso do ZooKeeper</h3>
+
+    <p>
+        Com o ZooKeeper, a arquitetura do Kafka ficava dividida em duas partes principais:
+        o cluster Kafka, formado pelos brokers, e o cluster ZooKeeper, usado para coordenação.
+        Embora essa solução funcionasse, ela aumentava a complexidade operacional, pois era
+        necessário administrar dois sistemas distribuídos ao mesmo tempo.
+    </p>
+
+    <h3>KRaft</h3>
+
+    <p>
+        Com a evolução do Kafka, foi introduzido o modo <strong>KRaft</strong>, que elimina
+        a dependência do ZooKeeper. Nesse modelo, o próprio Kafka passa a gerenciar os
+        metadados do cluster usando um mecanismo de consenso interno baseado no protocolo
+        Raft.
+    </p>
+
+    <p>
+        Na prática, essa mudança simplifica a arquitetura, reduz a quantidade de componentes
+        externos e torna o gerenciamento do cluster mais integrado ao próprio Kafka.
+    </p>
+
+</div>
 
         </section>
 
