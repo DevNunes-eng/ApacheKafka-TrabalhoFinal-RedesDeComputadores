@@ -266,6 +266,9 @@ footer {
         <li>
             <a href="#referencias">7 Referências</a>
         </li>
+        <li>
+            <a href="#perguntas">8 Perguntas</a>
+        </li>
     </ul>
 </nav>
 
@@ -912,6 +915,21 @@ Originalmente criado pelo LinkedIn em 2011 para resolver problemas de pipelines 
                 <li>CONFLUENT. <strong>What is Apache Kafka?</strong> Disponível em: &lt;https://developer.confluent.io/what-is-apache-kafka/&gt;. Acesso em: maio 2026.</li>
                 <li>DEVNUNES-ENG. <strong>ApacheKafka-TrabalhoFinal-RedesDeComputadores.</strong> GitHub. Disponível em: &lt;https://github.com/DevNunes-eng/ApacheKafka-TrabalhoFinal-RedesDeComputadores&gt;. Acesso em: maio 2026.</li>
             </ul>
+        </section>
+
+        <section id="perguntas">
+            <h1> 8 Perguntas sobre Apache Kafka</h1>
+            <h2>1-Qual é o principal propósito do Apache Kafka no contexto de arquitetura de dados?</h2>
+            <p><strong>R -> Tratar dados em movimento, permitindo a publicação, assinatura e processamento de fluxos de eventos em tempo real</strong></p>
+            <h2>2-Como o Kafka garante que as mensagens dentro de uma partição sejam lidas na mesma ordem em que foram enviadas?</h2>
+            <p><strong>R -> Usando um log imutável de mensagens onde cada nova mensagem é anexada ao final e recebe um número sequencial (Offset)</strong></p>
+            <h2>3-O que acontece se um dos servidores (Brokers) que armazena uma partição do seu tópico falhar?</h2>
+            <p><strong>R -> Graças à Replicação, outro Broker que possui uma cópia idêntica (Follower) assume o controle como líder (Leader)</strong></p>
+            <h2>4-Historicamente, o Kafka dependia de uma ferramenta externa chamada Apache ZooKeeper para coordenar o cluster. Qual é a nova arquitetura que permite ao Kafka gerenciar a si mesmo?</h2>
+            <p><strong>R - > KRaft(Kafka Raft Metadata Mode)</strong></p>
+            <h2>5-Qual é o foco principal da API Kafka Streams dentro do ecossistema?</h2>
+            <p><strong>R -> Processar, transformar e analisar fluxos de dados em tempo real diretamente dentro de uma aplicação (como Java)</strong></p>
+
         </section>
 
     </main>
